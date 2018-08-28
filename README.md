@@ -10,7 +10,7 @@
 ## Features
 So far, the following features are supported:
 
-- **Scalable GraphQL server:** The server uses [`Apollo-Server`](https://github.com/apollographql/apollo-server) which is based on Apollo Server & Express
+- **Scalable GraphQL server:** The server uses [`Apollo-Server`](https://github.com/apollographql/apollo-server) 
 - **GraphQL database:** Includes GraphQL database binding to [Prisma](https://www.prismagraphql.com) (running on PostgreSQL)
 - **Authentication**: Signup and login workflows
 - **Tooling**: Out-of-the-box support for [GraphQL Playground](https://github.com/prisma/graphql-playground) & [query performance tracing](https://github.com/apollographql/apollo-tracing)
