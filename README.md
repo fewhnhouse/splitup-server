@@ -5,12 +5,14 @@
 ![](https://imgur.com/lIi4YrZ.png)
 
 <div align="center"><strong>🚀 Flexible GraphQL server based on Node.js using Prisma and Apollo.</strong></div>
+<div align="center">This is a test project to get familiar with GraphQL by building an App similar to Splitwise and Splittr.</div>
 
 ## Features
+So far, the following features are supported:
 
-- **Scalable GraphQL server:** The server uses [`Apollo-Server`](https://github.com/prisma/graphql-yoga) which is based on Apollo Server & Express
+- **Scalable GraphQL server:** The server uses [`Apollo-Server`](https://github.com/apollographql/apollo-server) which is based on Apollo Server & Express
 - **GraphQL database:** Includes GraphQL database binding to [Prisma](https://www.prismagraphql.com) (running on PostgreSQL)
-- **Authentication**: Signup and login workflows are ready to use for your users
+- **Authentication**: Signup and login workflows
 - **Tooling**: Out-of-the-box support for [GraphQL Playground](https://github.com/prisma/graphql-playground) & [query performance tracing](https://github.com/apollographql/apollo-tracing)
 - **Extensible**: Simple and flexible [data model](./database/datamodel.graphql) – easy to adjust and extend
 - **No configuration overhead**: Preconfigured [`graphql-config`](https://github.com/prisma/graphql-config) setup
