@@ -8,8 +8,8 @@ const Mutation = {
   ...auth,
   ...post,
   ...group,
-//  ...expense,
-//  ...split
+  ...expense,
+  ...split
 };
 module.exports = {
   Mutation

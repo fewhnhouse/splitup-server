@@ -1,14 +1,19 @@
 # import Post from "./generated/prisma.graphql"
 # import Group from "./generated/prisma.graphql"
-## import Expense from "./generated/prisma.graphql"
-## import Split from "./generated/prisma.graphql"
+# import Expense from "./generated/prisma.graphql"
+# import Split from "./generated/prisma.graphql"
 
 type Query {
   feed: [Post!]!
   drafts: [Post!]!
   post(id: ID!): Post
   me: User
-  groups(userid: ID!): Group
+  group(id: ID!): Group
+  expense(id: ID!): Expense
+  split(id: ID!): Split
+  groups(userid: ID!): [Group!]!
+  expenses(groupid: ID!): [Expense!]!
+  splits(expenseId: ID!): [Split!]!
 }
 
 type Mutation {
@@ -18,8 +23,8 @@ type Mutation {
   publish(id: ID!): Post!
   deletePost(id: ID!): Post!
   createGroup(title: String!): Group!
-#  createExpense(title: String!, splits: [ID!]!, groupId: ID!): Expense!
-#  createSplit(amount: Int!, expenseId: ID!): Split!
+  createExpense(title: String!, groupId: ID!): Expense!
+  createSplit(amount: Int!, expenseId: ID!): Split!
 }
 
 type Subscription {

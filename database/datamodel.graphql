@@ -20,15 +20,17 @@ type Split {
   id: ID! @unique
   amount: Int!
   author: User!
+  ownedBy: Expense! @relation(name: "Splits")
 }
 
 type Expense {
   id: ID! @unique
   title: String!
   participants: [User!]! @relation(name: "ExpenseParticipants", onDelete: CASCADE)
-  splits: [Split!]!
+  splits: [Split!]! @relation(name: "Splits", onDelete: CASCADE)
   amount: Int
   author: User! @relation(name: "ExpenseAuthor")
+  ownedBy: Group! @relation(name: "Expenses")
 }
 
 type Group {
@@ -36,6 +38,6 @@ type Group {
   createdAt: DateTime!
   title: String!
   participants: [User!]! @relation(name: "UserParticipants", onDelete: CASCADE)
-  #  expenses: [Expense!]!
+  expenses: [Expense!]! @relation(name: "Expenses", onDelete: CASCADE)
   author: User! @relation(name: "UserAuthor")
 }
