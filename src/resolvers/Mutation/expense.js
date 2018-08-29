@@ -1,7 +1,7 @@
 const { getUserId } = require("../../utils");
 
 const expense = {
-  async createExpense(parent, { title, splits, groupId }, ctx, info) {
+  async createExpense(parent, { title, groupId }, ctx, info) {
     const userId = getUserId(ctx);
     return ctx.db.mutation.createExpense(
       {

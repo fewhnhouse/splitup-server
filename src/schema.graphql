@@ -11,7 +11,7 @@ type Query {
   group(id: ID!): Group
   expense(id: ID!): Expense
   split(id: ID!): Split
-  groups(userid: ID!): [Group!]!
+  groups: [Group!]!
   expenses(groupid: ID!): [Expense!]!
   splits(expenseId: ID!): [Split!]!
 }

@@ -11,6 +11,9 @@ const Mutation = {
   ...expense,
   ...split
 };
+
+console.log(Mutation);
+
 module.exports = {
   Mutation
 };
