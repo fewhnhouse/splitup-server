@@ -15,3 +15,27 @@ type User {
   name: String!
   posts: [Post!]!
 }
+
+type Split {
+  id: ID! @unique
+  amount: Int!
+  author: User!
+}
+
+type Expense {
+  id: ID! @unique
+  title: String!
+  participants: [User!]! @relation(name: "ExpenseParticipants", onDelete: CASCADE)
+  splits: [Split!]!
+  amount: Int
+  author: User! @relation(name: "ExpenseAuthor")
+}
+
+type Group {
+  id: ID! @unique
+  createdAt: DateTime!
+  title: String!
+  participants: [User!]! @relation(name: "UserParticipants", onDelete: CASCADE)
+  #  expenses: [Expense!]!
+  author: User! @relation(name: "UserAuthor")
+}
