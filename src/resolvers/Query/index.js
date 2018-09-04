@@ -3,6 +3,7 @@ const { split } = require("./split");
 const { post } = require("./post");
 const { group } = require("./group");
 const { expense } = require("./expense");
+const { user } = require("./users");
 
 const Query = {
   me(parent, args, ctx, info) {
@@ -12,9 +13,8 @@ const Query = {
   ...post,
   ...split,
   ...expense,
-  ...group
+  ...group,
+  ...user
 };
-
-console.log(Query);
 
 module.exports = { Query };

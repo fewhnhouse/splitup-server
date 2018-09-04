@@ -12,7 +12,6 @@ const Mutation = {
   ...split
 };
 
-console.log(Mutation);
 
 module.exports = {
   Mutation

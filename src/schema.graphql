@@ -8,6 +8,8 @@ type Query {
   drafts: [Post!]!
   post(id: ID!): Post
   me: User
+  users: [User!]
+  user(email: String!): User
   group(id: ID!): Group
   expense(id: ID!): Expense
   split(id: ID!): Split
@@ -22,9 +24,24 @@ type Mutation {
   createDraft(title: String!, text: String!): Post!
   publish(id: ID!): Post!
   deletePost(id: ID!): Post!
-  createGroup(title: String!): Group!
-  createExpense(title: String!, groupId: ID!): Expense!
-  createSplit(amount: Int!, expenseId: ID!): Split!
+  createGroup(input: CreateGroupInput!): Group!
+  createExpense(input: CreateExpenseInput!): Expense!
+  createSplit(input: CreateSplitInput!): Split!
+}
+
+input CreateGroupInput {
+  title: String!
+  participants: [ID!]!
+}
+
+input CreateExpenseInput {
+  title: String!
+  groupId: ID!
+}
+
+input CreateSplitInput {
+  amount: Int!
+  expenseId: ID!
 }
 
 type Subscription {
