@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Wed Aug 29 2018 12:45:57 GMT+0200 (CEST)
+# timestamp: Thu Sep 06 2018 10:44:44 GMT+0200 (CEST)
 
 type AggregateExpense {
   count: Int!
@@ -1223,6 +1223,7 @@ type User implements Node {
   password: String!
   name: String!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
+  friends(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
 }
 
 """A connection to a list of items."""
@@ -1240,6 +1241,7 @@ input UserCreateInput {
   password: String!
   name: String!
   posts: PostCreateManyWithoutAuthorInput
+  friends: UserCreateManyInput
 }
 
 input UserCreateManyInput {
@@ -1261,6 +1263,7 @@ input UserCreateWithoutPostsInput {
   email: String!
   password: String!
   name: String!
+  friends: UserCreateManyInput
 }
 
 """An edge in a connection."""
@@ -1338,6 +1341,7 @@ input UserUpdateDataInput {
   password: String
   name: String
   posts: PostUpdateManyWithoutAuthorInput
+  friends: UserUpdateManyInput
 }
 
 input UserUpdateInput {
@@ -1345,6 +1349,7 @@ input UserUpdateInput {
   password: String
   name: String
   posts: PostUpdateManyWithoutAuthorInput
+  friends: UserUpdateManyInput
 }
 
 input UserUpdateManyInput {
@@ -1376,6 +1381,7 @@ input UserUpdateWithoutPostsDataInput {
   email: String
   password: String
   name: String
+  friends: UserUpdateManyInput
 }
 
 input UserUpdateWithWhereUniqueNestedInput {
@@ -1571,6 +1577,9 @@ input UserWhereInput {
   posts_every: PostWhereInput
   posts_some: PostWhereInput
   posts_none: PostWhereInput
+  friends_every: UserWhereInput
+  friends_some: UserWhereInput
+  friends_none: UserWhereInput
 }
 
 input UserWhereUniqueInput {

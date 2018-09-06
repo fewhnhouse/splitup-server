@@ -3,13 +3,9 @@ const { split } = require("./split");
 const { post } = require("./post");
 const { group } = require("./group");
 const { expense } = require("./expense");
-const { user } = require("./users");
+const { user } = require("./user");
 
 const Query = {
-  me(parent, args, ctx, info) {
-    const id = getUserId(ctx);
-    return ctx.db.query.user({ where: { id } }, info);
-  },
   ...post,
   ...split,
   ...expense,
