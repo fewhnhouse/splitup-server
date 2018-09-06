@@ -17,6 +17,9 @@ const split = {
       },
       info
     );
+  },
+  async modifySplit(parent, args, ctx, info) {
+    return null;
   }
 };
 

@@ -22,12 +22,24 @@ type Mutation {
   signup(email: String!, password: String!, name: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
   addFriend(id: ID!): User!
-  createDraft(title: String!, text: String!): Post!
+  removeFriend(id: ID!): User!
+
   publish(id: ID!): Post!
+  createDraft(title: String!, text: String!): Post!
   deletePost(id: ID!): Post!
+
   createGroup(input: CreateGroupInput!): Group!
+  modifyGroup(input: ModifyGroupInput!): Group!
+  joinGroup(id: ID!): Group!
+  leaveGroup(id: ID!): Group!
+  deleteGroup(id: ID!): Group!
+
   createExpense(input: CreateExpenseInput!): Expense!
+  deleteExpense(id: ID!): Expense!
+  modifyExpense(input: ModifyExpenseInput!): Expense!
+
   createSplit(input: CreateSplitInput!): Split!
+  modifySplit(input: ModifySplitInput!): Split!
 }
 
 input CreateGroupInput {
@@ -35,14 +47,26 @@ input CreateGroupInput {
   participants: [ID!]!
 }
 
+input ModifyGroupInput {
+  title: String!
+}
+
 input CreateExpenseInput {
   title: String!
   groupId: ID!
 }
 
+input ModifyExpenseInput {
+  title: String!
+}
+
 input CreateSplitInput {
   amount: Int!
   expenseId: ID!
+}
+
+input ModifySplitInput {
+  amount: Int!
 }
 
 type Subscription {

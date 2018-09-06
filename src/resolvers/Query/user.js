@@ -1,4 +1,4 @@
-//const { getUserId } = require("../../utils");
+const { getUserId } = require("../../utils");
 
 const user = {
   users(parent, args, ctx, info) {

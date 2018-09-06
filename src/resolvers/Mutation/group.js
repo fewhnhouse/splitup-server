@@ -20,6 +20,18 @@ const group = {
       },
       info
     );
+  },
+  async joinGroup(parent, args, ctx, info) {
+    return null;
+  },
+  async leaveGroup(parent, args, ctx, info) {
+    return null;
+  },
+  async modifyGroup(parent, args, ctx, info) {
+    return null;
+  },
+  async deleteGroup(parent, args, ctx, info) {
+    return null;
   }
 };
 

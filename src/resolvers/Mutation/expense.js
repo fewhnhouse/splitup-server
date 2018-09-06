@@ -12,12 +12,18 @@ const expense = {
             connect: { id: userId }
           },
           belongsTo: {
-              connect: {id: groupId}
+            connect: { id: groupId }
           }
         }
       },
       info
     );
+  },
+  async deleteExpense(parent, args, ctx, info) {
+    return null;
+  },
+  async modifyExpense(parent, args, ctx, info) {
+    return null;
   }
 };
 
