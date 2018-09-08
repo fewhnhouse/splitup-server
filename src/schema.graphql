@@ -1,12 +1,8 @@
-# import Post from "./generated/prisma.graphql"
 # import Group from "./generated/prisma.graphql"
 # import Expense from "./generated/prisma.graphql"
 # import Split from "./generated/prisma.graphql"
 
 type Query {
-  feed: [Post!]!
-  drafts: [Post!]!
-  post(id: ID!): Post
   me: User
   users: [User!]
   user(email: String!): User
@@ -23,10 +19,6 @@ type Mutation {
   login(email: String!, password: String!): AuthPayload!
   addFriend(id: ID!): User!
   removeFriend(id: ID!): User!
-
-  publish(id: ID!): Post!
-  createDraft(title: String!, text: String!): Post!
-  deletePost(id: ID!): Post!
 
   createGroup(input: CreateGroupInput!): Group!
   modifyGroupTitle(id: ID!, title: String!): Group!
@@ -74,10 +66,6 @@ input ModifySplitInput {
   splitId: ID!
 }
 
-type Subscription {
-  feedSubscription: PostSubscriptionPayload!
-}
-
 type AuthPayload {
   token: String!
   user: User!
@@ -87,6 +75,7 @@ type User {
   id: ID!
   email: String!
   name: String!
-  posts: [Post!]!
+  avatar: String
+  groups: [Group!]!
   friends: [User!]!
 }

@@ -11,11 +11,9 @@ const group = {
         data: {
           title,
           participants: {
-            set: {
-              connect: participants.map(el => {
-                return { id: el };
-              })
-            }
+            connect: participants.map(el => {
+              return { id: el };
+            })
           },
           author: {
             connect: { id: userId }

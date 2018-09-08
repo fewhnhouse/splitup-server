@@ -6,6 +6,5 @@ const { AuthPayload } = require("./AuthPayload");
 module.exports = {
   Query,
   Mutation,
-  Subscription,
   AuthPayload
 };
