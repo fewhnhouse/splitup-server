@@ -29,7 +29,8 @@ type Mutation {
   deletePost(id: ID!): Post!
 
   createGroup(input: CreateGroupInput!): Group!
-  modifyGroup(input: ModifyGroupInput!): Group!
+  modifyGroupTitle(id: ID!, title: String!): Group!
+  modifyGroupParticipants(input: ModifyGroupParticipantsInput!): Group!
   joinGroup(id: ID!): Group!
   leaveGroup(id: ID!): Group!
   deleteGroup(id: ID!): Group!
@@ -47,14 +48,15 @@ input CreateGroupInput {
   participants: [ID!]!
 }
 
-input ModifyGroupInput {
-  title: String!
+input ModifyGroupParticipantsInput {
   groupId: ID!
+  add: Boolean!
+  participants: [ID!]!
 }
 
 input CreateExpenseInput {
-  title: String!
   groupId: ID!
+  title: String!
 }
 
 input ModifyExpenseInput {
