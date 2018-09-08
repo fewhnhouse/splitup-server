@@ -19,11 +19,20 @@ const expense = {
       info
     );
   },
-  async deleteExpense(parent, args, ctx, info) {
-    return null;
+  async deleteExpense(parent, { id }, ctx, info) {
+    return ctx.db.mutation.deleteExpense({ where: { id } }, info);
   },
-  async modifyExpense(parent, args, ctx, info) {
-    return null;
+  async modifyExpense(parent, { expenseId, title, splits }, ctx, info) {
+    return ctx.db.mutation.updateExpense(
+      {
+        where: { id: expenseId },
+        data: {
+          title,
+          splits
+        }
+      },
+      info
+    );
   }
 };
 

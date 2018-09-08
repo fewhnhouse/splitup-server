@@ -21,8 +21,8 @@ const user = {
     const friendExists = await ctx.db.exists.User({
       id
     });
-    if(!friendExists) {
-      throw new Error("Friend does not exist")
+    if (!friendExists) {
+      throw new Error("Friend does not exist");
     }
     const userId = await getUserId(ctx);
     let friends = await getOwnFriends(ctx, userId);
@@ -31,7 +31,7 @@ const user = {
     } else if (id === userId) {
       throw new Error("Can´t add yourself to friends");
     } else {
-      friends.push({ id: id });
+      friends.push({ id });
     }
 
     return ctx.db.mutation.updateUser(

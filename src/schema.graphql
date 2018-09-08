@@ -49,6 +49,7 @@ input CreateGroupInput {
 
 input ModifyGroupInput {
   title: String!
+  groupId: ID!
 }
 
 input CreateExpenseInput {
@@ -58,6 +59,7 @@ input CreateExpenseInput {
 
 input ModifyExpenseInput {
   title: String!
+  expenseId: ID!
 }
 
 input CreateSplitInput {
@@ -67,6 +69,7 @@ input CreateSplitInput {
 
 input ModifySplitInput {
   amount: Int!
+  splitId: ID!
 }
 
 type Subscription {
