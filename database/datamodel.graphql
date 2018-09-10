@@ -3,7 +3,8 @@ type User {
   email: String! @unique
   password: String!
   name: String!
-  friends: [User!]!
+  friends: [User!]! @relation(name: "Friends")
+  friendRequests: [User!]! @relation(name: "FriendRequests")
   groups: [Group!]! @relation(name: "UserParticipants", onDelete: CASCADE)
   avatar: String
 }

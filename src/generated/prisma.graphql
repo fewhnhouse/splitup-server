@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Sat Sep 08 2018 13:48:31 GMT+0200 (CEST)
+# timestamp: Mon Sep 10 2018 12:28:32 GMT+0200 (CEST)
 
 type AggregateExpense {
   count: Int!
@@ -919,6 +919,7 @@ type User implements Node {
   password: String!
   name: String!
   friends(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  friendRequests(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   groups(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Group!]
   avatar: String
 }
@@ -939,6 +940,7 @@ input UserCreateInput {
   name: String!
   avatar: String
   friends: UserCreateManyInput
+  friendRequests: UserCreateManyInput
   groups: GroupCreateManyWithoutParticipantsInput
 }
 
@@ -963,6 +965,7 @@ input UserCreateWithoutGroupsInput {
   name: String!
   avatar: String
   friends: UserCreateManyInput
+  friendRequests: UserCreateManyInput
 }
 
 """An edge in a connection."""
@@ -1044,6 +1047,7 @@ input UserUpdateDataInput {
   name: String
   avatar: String
   friends: UserUpdateManyInput
+  friendRequests: UserUpdateManyInput
   groups: GroupUpdateManyWithoutParticipantsInput
 }
 
@@ -1053,6 +1057,7 @@ input UserUpdateInput {
   name: String
   avatar: String
   friends: UserUpdateManyInput
+  friendRequests: UserUpdateManyInput
   groups: GroupUpdateManyWithoutParticipantsInput
 }
 
@@ -1088,6 +1093,7 @@ input UserUpdateWithoutGroupsDataInput {
   name: String
   avatar: String
   friends: UserUpdateManyInput
+  friendRequests: UserUpdateManyInput
 }
 
 input UserUpdateWithWhereUniqueNestedInput {
@@ -1329,6 +1335,9 @@ input UserWhereInput {
   friends_every: UserWhereInput
   friends_some: UserWhereInput
   friends_none: UserWhereInput
+  friendRequests_every: UserWhereInput
+  friendRequests_some: UserWhereInput
+  friendRequests_none: UserWhereInput
   groups_every: GroupWhereInput
   groups_some: GroupWhereInput
   groups_none: GroupWhereInput

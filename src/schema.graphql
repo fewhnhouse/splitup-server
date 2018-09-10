@@ -4,9 +4,10 @@
 
 type Query {
   me: User
-  users(name_contains: String, email: String): [User!]
+  users(name_contains: String, email: String, includeFriends: Boolean!): [User!]
   user(email: String!): User
   group(id: ID!): Group
+  friends: [User!]!
   expense(id: ID!): Expense
   split(id: ID!): Split
   groups(author: ID, title_contains: String): [Group!]!
@@ -18,6 +19,7 @@ type Mutation {
   signup(email: String!, password: String!, name: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
   addFriend(id: ID!): User!
+  createFriendRequest(id: ID!): User!
   removeFriend(id: ID!): User!
 
   createGroup(input: CreateGroupInput!): Group!
@@ -33,6 +35,11 @@ type Mutation {
 
   createSplit(input: CreateSplitInput!): Split!
   modifySplit(input: ModifySplitInput!): Split!
+}
+
+type Subscription {
+  friendRequestSubscription: UserSubscriptionPayload!
+  createGroupSubscription: GroupSubscriptionPayload!
 }
 
 input CreateGroupInput {
@@ -76,6 +83,7 @@ type User {
   email: String!
   name: String!
   avatar: String
+  friendRequests: [User!]!
   groups: [Group!]!
   friends: [User!]!
 }
