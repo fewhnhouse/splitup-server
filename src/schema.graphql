@@ -4,12 +4,12 @@
 
 type Query {
   me: User
-  users: [User!]
+  users(name_contains: String, email: String): [User!]
   user(email: String!): User
   group(id: ID!): Group
   expense(id: ID!): Expense
   split(id: ID!): Split
-  groups: [Group!]!
+  groups(author: ID, title_contains: String): [Group!]!
   expenses(groupid: ID!): [Expense!]!
   splits(expenseId: ID!): [Split!]!
 }
