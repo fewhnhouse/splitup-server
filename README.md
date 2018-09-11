@@ -28,6 +28,12 @@ cd my-app
 # 2. Install dependencies
 yarn
 
+# 3. Set APP_SECRET and SERVER_PORT values in your .env file
+touch .env
+echo "APP_SECRET=<mysecret>" >> .env
+echo "SERVER_PORT=4000" >> .env
+echo "PRISMA_PORT=4466" >> .env
+
 # 4. Start server (runs on http://localhost:4000) and open GraphQL Playground
 yarn start
 ```

@@ -1,5 +1,5 @@
 const Subscription = {
-  feedSubscription: {
+  users: {
     subscribe: (parent, args, ctx, info) => {
       return ctx.db.subscription.post(
         {

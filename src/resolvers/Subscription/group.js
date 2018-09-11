@@ -1,7 +1,8 @@
 const group = {
-  createGroupSubscription: {
-    subscribe: (parent, args, ctx, info) => {
-      return ctx.db.subscription.group({}, info);
+  group: {
+    subscribe: async (parent, args, ctx, info) => {
+      const sub = ctx.db.subscription.group({}, info);
+      return sub;
     }
   }
 };
