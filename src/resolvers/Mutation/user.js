@@ -77,8 +77,8 @@ const user = {
   async createFriendRequest(parent, { id }, ctx, info) {
     const userId = await getUserId(ctx);
     return ctx.db.mutation.updateUser({
-      where: { id: userId },
-      data: { friendRequests: { connect: { id } } }
+      where: { id },
+      data: { friendRequests: { connect: { id: userId } } }
     });
   }
 };
