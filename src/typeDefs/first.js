@@ -29,7 +29,8 @@ const first = gql`
 
     createGroup(input: CreateGroupInput!): Group!
     modifyGroupTitle(id: ID!, title: String!): Group!
-    modifyGroupParticipants(input: ModifyGroupParticipantsInput!): Group!
+    addGroupParticipant(groupId: ID!, userId: ID!): Group!
+    removeGroupParticipant(groupId: ID!, userId: ID!): Group!
     joinGroup(id: ID!): Group!
     leaveGroup(id: ID!): Group!
     deleteGroup(id: ID!): Group!

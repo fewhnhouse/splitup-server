@@ -62,6 +62,7 @@ const group = {
       info
     );
   },
+  /*
   async modifyGroupParticipants(parent, { input }, ctx, info) {
     const { add, participants, groupId } = input;
     const groupExists = await ctx.db.exists.Group({
@@ -83,6 +84,23 @@ const group = {
       },
       info
     );
+  },
+  */
+  async addGroupParticipant(parent, { groupId, userId }, ctx, info) {
+    return ctx.db.mutation.updateGroup({
+      where: { id: groupId },
+      data: {
+        participants: { connect: { id: userId } }
+      }
+    });
+  },
+  async removeGroupParticipant(parent, { groupId, userId }, ctx, info) {
+    return ctx.db.mutation.updateGroup({
+      where: { id: groupId },
+      data: {
+        participants: { disconnect: { id: userId } }
+      }
+    });
   },
   async deleteGroup(parent, { id }, ctx, info) {
     return ctx.db.mutation.deleteGroup({ where: { id } }, info);
