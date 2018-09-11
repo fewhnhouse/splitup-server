@@ -22,6 +22,10 @@ const user = {
       : users.filter(user => !me.friends.find(friend => friend.id === user.id));
   },
 
+  users2(parent, { where }, ctx, info) {
+    return ctx.db.query.users({ where }, info);
+  },
+
   user(parent, { email }, ctx, info) {
     const where = { email };
     return ctx.db.query.user({ where }, info);

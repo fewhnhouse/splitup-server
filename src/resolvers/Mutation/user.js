@@ -15,6 +15,17 @@ const user = {
       info
     );
   },
+  async addAvatar(parent, { file }, ctx, info) {
+    const userId = await getUserId(ctx);
+    return ctx.db.mutation.updateUser(
+      {
+        where: { id: userId },
+        data: { avatar: file }
+      },
+      info
+    );
+  },
+
   async removeFriend(parent, { id }, ctx, info) {
     const userId = await getUserId(ctx);
     return ctx.db.mutation.updateUser(
