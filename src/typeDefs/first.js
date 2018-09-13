@@ -45,6 +45,7 @@ const first = gql`
 
   input CreateGroupInput {
     title: String!
+    description: String
     participants: [ID!]!
   }
 

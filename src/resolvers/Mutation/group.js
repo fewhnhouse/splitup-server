@@ -2,7 +2,7 @@ const { getUserId } = require("../../utils");
 
 const group = {
   async createGroup(parent, { input }, ctx, info) {
-    const { title, participants } = input;
+    const { title, participants, description } = input;
     const userId = getUserId(ctx);
     //Author is also participant
     participants.push(userId);
@@ -10,6 +10,7 @@ const group = {
       {
         data: {
           title,
+          description,
           participants: {
             connect: participants.map(el => {
               return { id: el };
@@ -62,30 +63,6 @@ const group = {
       info
     );
   },
-  /*
-  async modifyGroupParticipants(parent, { input }, ctx, info) {
-    const { add, participants, groupId } = input;
-    const groupExists = await ctx.db.exists.Group({
-      id: groupId
-    });
-    if (!groupExists) {
-      throw new Error("Group does not exist");
-    }
-
-    const mappedParticipants = participants.map(el => ({ id: el }));
-    return ctx.db.mutation.updateGroup(
-      {
-        where: { id },
-        data: {
-          participants: add
-            ? { connect: mappedParticipants }
-            : { disconnect: mappedParticipants }
-        }
-      },
-      info
-    );
-  },
-  */
   async addGroupParticipant(parent, { groupId, userId }, ctx, info) {
     return ctx.db.mutation.updateGroup({
       where: { id: groupId },

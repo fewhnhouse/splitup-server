@@ -31,6 +31,8 @@ type Group {
   id: ID! @unique
   createdAt: DateTime!
   title: String!
+  description: String
+  avatar: String
   participants: [User!]! @relation(name: "UserParticipants", onDelete: CASCADE)
   expenses: [Expense!]! @relation(name: "Expenses", onDelete: CASCADE)
   author: User! @relation(name: "UserAuthor")
