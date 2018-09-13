@@ -3,15 +3,16 @@
 # import Split from "../generated/prisma.graphql"
 # import Subscription from "../generated/prisma.graphql"
 
-#type User {
-#  id: ID!
-#  email: String!
-#  name: String!
-#  avatar: String
-#  friendRequests: [User!]!
-#  groups: [Group!]!
-#  friends: [User!]!
-#}
+type User {
+  id: ID!
+  email: String!
+  name: String!
+  avatar: String
+  friendRequests: [User!]!
+  groups: [Group!]!
+  friends: [User!]!
+}
+
 type Subscription {
   user: UserSubscriptionPayload!
   group: GroupSubscriptionPayload!
