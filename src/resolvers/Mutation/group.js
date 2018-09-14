@@ -45,7 +45,7 @@ const group = {
       info
     );
   },
-  async modifyGroupTitle(parent, { id, title }, ctx, info) {
+  async editGroup(parent, { id, title, description }, ctx, info) {
     const groupExists = await ctx.db.exists.Group({
       id
     });
@@ -57,7 +57,8 @@ const group = {
       {
         where: { id },
         data: {
-          title
+          title: title !== "" ? title : undefined,
+          description: description !== "" ? description : undefined
         }
       },
       info

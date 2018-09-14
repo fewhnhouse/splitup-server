@@ -10,7 +10,7 @@ const mutations = gql`
     removeFriend(id: ID!): User!
 
     createGroup(input: CreateGroupInput!): Group!
-    modifyGroupTitle(id: ID!, title: String!): Group!
+    editGroup(id: ID!, title: String!, description: String): Group!
     addGroupParticipant(groupId: ID!, userId: ID!): Group!
     removeGroupParticipant(groupId: ID!, userId: ID!): Group!
     joinGroup(id: ID!): Group!
