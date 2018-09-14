@@ -64,13 +64,17 @@ const group = {
       info
     );
   },
-  async addGroupParticipant(parent, { groupId, userId }, ctx, info) {
-    return ctx.db.mutation.updateGroup({
-      where: { id: groupId },
-      data: {
-        participants: { connect: { id: userId } }
-      }
-    });
+  async addGroupParticipants(parent, { input }, ctx, info) {
+    const { groupId, participants } = input;
+    return ctx.db.mutation.updateGroup(
+      {
+        where: { id: groupId },
+        data: {
+          participants: { connect: participants.map(p => ({ id: p })) }
+        }
+      },
+      info
+    );
   },
   async removeGroupParticipant(parent, { groupId, userId }, ctx, info) {
     return ctx.db.mutation.updateGroup({

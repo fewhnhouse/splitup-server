@@ -11,7 +11,7 @@ const mutations = gql`
 
     createGroup(input: CreateGroupInput!): Group!
     editGroup(id: ID!, title: String!, description: String): Group!
-    addGroupParticipant(groupId: ID!, userId: ID!): Group!
+    addGroupParticipants(input: AddGroupParticipantsInput!): Group!
     removeGroupParticipant(groupId: ID!, userId: ID!): Group!
     joinGroup(id: ID!): Group!
     leaveGroup(id: ID!): Group!

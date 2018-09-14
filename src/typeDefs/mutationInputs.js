@@ -7,9 +7,8 @@ const inputs = gql`
     participants: [ID!]!
   }
 
-  input ModifyGroupParticipantsInput {
+  input AddGroupParticipantsInput {
     groupId: ID!
-    add: Boolean!
     participants: [ID!]!
   }
 
