@@ -11,6 +11,16 @@ const inputs = gql`
 
     id_not: ID
 
+    """
+    All values that are contained in given list.
+    """
+    id_in: [ID!]
+
+    """
+    All values that are not contained in given list.
+    """
+    id_not_in: [ID!]
+
     email: String
 
     email_not: String
