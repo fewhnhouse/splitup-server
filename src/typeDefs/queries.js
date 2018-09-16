@@ -18,7 +18,7 @@ const queries = gql`
     friends: [User!]!
 
     # GROUPS
-    groups(where: GroupWhereInput): [Group!]
+    groups: [Group!]
     groupsConnection(
       where: GroupWhereInput
       orderBy: MyGroupOrderByInput
