@@ -1,8 +1,7 @@
 const { getUserId } = require("../../utils");
 
 const group = {
-  groups(parent, { author, title_contains }, ctx, info) {
-    const where = { author: { id: author }, title_contains };
+  groups(parent, { where }, ctx, info) {
     return ctx.db.query.groups({ where }, info);
   },
 

@@ -1,8 +1,5 @@
 const expense = {
-  expenses(parent, { groupId }, ctx, info) {
-    const where = {
-      ownedBy: groupId
-    };
+  expenses(parent, { where }, ctx, info) {
     return ctx.db.query.expenses({ where }, info);
   },
 

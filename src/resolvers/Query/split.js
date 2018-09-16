@@ -1,13 +1,7 @@
 const { getUserId } = require("../../utils");
 
 const split = {
-  splits(parent, { expenseId }, ctx, info) {
-    const id = getUserId(ctx);
-
-    const where = {
-      expenseId
-    };
-
+  splits(parent, { where }, ctx, info) {
     return ctx.db.query.splits({ where }, info);
   },
 

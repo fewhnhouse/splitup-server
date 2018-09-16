@@ -2,6 +2,7 @@
 # import Expense from "../generated/prisma.graphql"
 # import Split from "../generated/prisma.graphql"
 # import Subscription from "../generated/prisma.graphql"
+# import UserConnection from "../generated/prisma.graphql"
 
 type User {
   id: ID!
@@ -16,4 +17,14 @@ type User {
 type Subscription {
   user: UserSubscriptionPayload!
   group: GroupSubscriptionPayload!
+}
+
+"""A connection to a list of items."""
+type UserConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [UserEdge]!
+  aggregate: AggregateUser!
 }

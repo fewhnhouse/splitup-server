@@ -127,6 +127,23 @@ const inputs = gql`
     groups_some: GroupWhereInput
     groups_none: GroupWhereInput
   }
+
+  enum MyUserOrderByInput {
+    id_ASC
+    id_DESC
+    email_ASC
+    email_DESC
+    password_ASC
+    password_DESC
+    name_ASC
+    name_DESC
+    avatar_ASC
+    avatar_DESC
+    updatedAt_ASC
+    updatedAt_DESC
+    createdAt_ASC
+    createdAt_DESC
+  }
 `;
 
 module.exports = inputs;
