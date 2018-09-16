@@ -2,6 +2,7 @@ const gql = require("graphql-tag");
 
 const queries = gql`
   type Query {
+    # USERS
     me: User
     users(where: MyUserWhereInput!): [User!]
     usersConnection(
@@ -14,13 +15,28 @@ const queries = gql`
       last: Int
     ): UserConnection!
     user(id: ID, email: String): User
-    group(id: ID!): Group
     friends: [User!]!
-    expense(id: ID!): Expense
-    split(id: ID!): Split
+
+    # GROUPS
     groups(where: GroupWhereInput!): [Group!]
+    groupsConnection(
+      where: GroupWhereInput
+      orderBy: MyGroupOrderByInput
+      skip: Int
+      after: String
+      before: String
+      first: Int
+      last: Int
+    ): GroupConnection!
+    group(id: ID!): Group
+
+    # EXPENSES
     expenses(where: ExpenseWhereInput!): [Expense!]
+    expense(id: ID!): Expense
+
+    # SPLITS
     splits(where: SplitWhereInput!): [Split!]
+    split(id: ID!): Split
   }
 `;
 

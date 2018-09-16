@@ -144,6 +144,21 @@ const inputs = gql`
     createdAt_ASC
     createdAt_DESC
   }
+
+  enum MyGroupOrderByInput {
+    id_ASC
+    id_DESC
+    createdAt_ASC
+    createdAt_DESC
+    title_ASC
+    title_DESC
+    description_ASC
+    description_DESC
+    avatar_ASC
+    avatar_DESC
+    updatedAt_ASC
+    updatedAt_DESC
+  }
 `;
 
 module.exports = inputs;

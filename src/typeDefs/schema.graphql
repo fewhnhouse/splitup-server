@@ -3,6 +3,8 @@
 # import Split from "../generated/prisma.graphql"
 # import Subscription from "../generated/prisma.graphql"
 # import UserConnection from "../generated/prisma.graphql"
+# import GroupConnection from "../generated/prisma.graphql"
+# import GroupOrderByInput from "../generated/prisma.graphql"
 
 type User {
   id: ID!
@@ -19,12 +21,34 @@ type Subscription {
   group: GroupSubscriptionPayload!
 }
 
-"""A connection to a list of items."""
+"""
+A connection to a list of items.
+"""
 type UserConnection {
-  """Information to aid in pagination."""
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
 
-  """A list of edges."""
+  """
+  A list of edges.
+  """
   edges: [UserEdge]!
   aggregate: AggregateUser!
+}
+
+"""
+A connection to a list of items.
+"""
+type GroupConnection {
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  A list of edges.
+  """
+  edges: [GroupEdge]!
+  aggregate: AggregateGroup!
 }
