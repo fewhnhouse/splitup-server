@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Thu Sep 13 2018 14:21:44 GMT+0200 (CEST)
+# timestamp: Mon Sep 17 2018 12:18:13 GMT+0200 (CEST)
 
 type AggregateExpense {
   count: Int!
@@ -31,7 +31,7 @@ type Expense implements Node {
   splits(where: SplitWhereInput, orderBy: SplitOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Split!]
   amount: Int
   author(where: UserWhereInput): User!
-  ownedBy(where: GroupWhereInput): Group!
+  belongsTo(where: GroupWhereInput): Group
 }
 
 """A connection to a list of items."""
@@ -48,13 +48,13 @@ input ExpenseCreateInput {
   title: String!
   amount: Int
   participants: UserCreateManyInput
-  splits: SplitCreateManyWithoutOwnedByInput
+  splits: SplitCreateManyWithoutBelongsToInput
   author: UserCreateOneInput!
-  ownedBy: GroupCreateOneWithoutExpensesInput!
+  belongsTo: GroupCreateOneWithoutExpensesInput
 }
 
-input ExpenseCreateManyWithoutOwnedByInput {
-  create: [ExpenseCreateWithoutOwnedByInput!]
+input ExpenseCreateManyWithoutBelongsToInput {
+  create: [ExpenseCreateWithoutBelongsToInput!]
   connect: [ExpenseWhereUniqueInput!]
 }
 
@@ -63,11 +63,11 @@ input ExpenseCreateOneWithoutSplitsInput {
   connect: ExpenseWhereUniqueInput
 }
 
-input ExpenseCreateWithoutOwnedByInput {
+input ExpenseCreateWithoutBelongsToInput {
   title: String!
   amount: Int
   participants: UserCreateManyInput
-  splits: SplitCreateManyWithoutOwnedByInput
+  splits: SplitCreateManyWithoutBelongsToInput
   author: UserCreateOneInput!
 }
 
@@ -76,7 +76,7 @@ input ExpenseCreateWithoutSplitsInput {
   amount: Int
   participants: UserCreateManyInput
   author: UserCreateOneInput!
-  ownedBy: GroupCreateOneWithoutExpensesInput!
+  belongsTo: GroupCreateOneWithoutExpensesInput
 }
 
 """An edge in a connection."""
@@ -150,18 +150,18 @@ input ExpenseUpdateInput {
   title: String
   amount: Int
   participants: UserUpdateManyInput
-  splits: SplitUpdateManyWithoutOwnedByInput
+  splits: SplitUpdateManyWithoutBelongsToInput
   author: UserUpdateOneInput
-  ownedBy: GroupUpdateOneWithoutExpensesInput
+  belongsTo: GroupUpdateOneWithoutExpensesInput
 }
 
-input ExpenseUpdateManyWithoutOwnedByInput {
-  create: [ExpenseCreateWithoutOwnedByInput!]
+input ExpenseUpdateManyWithoutBelongsToInput {
+  create: [ExpenseCreateWithoutBelongsToInput!]
   connect: [ExpenseWhereUniqueInput!]
   disconnect: [ExpenseWhereUniqueInput!]
   delete: [ExpenseWhereUniqueInput!]
-  update: [ExpenseUpdateWithWhereUniqueWithoutOwnedByInput!]
-  upsert: [ExpenseUpsertWithWhereUniqueWithoutOwnedByInput!]
+  update: [ExpenseUpdateWithWhereUniqueWithoutBelongsToInput!]
+  upsert: [ExpenseUpsertWithWhereUniqueWithoutBelongsToInput!]
 }
 
 input ExpenseUpdateOneWithoutSplitsInput {
@@ -172,11 +172,11 @@ input ExpenseUpdateOneWithoutSplitsInput {
   upsert: ExpenseUpsertWithoutSplitsInput
 }
 
-input ExpenseUpdateWithoutOwnedByDataInput {
+input ExpenseUpdateWithoutBelongsToDataInput {
   title: String
   amount: Int
   participants: UserUpdateManyInput
-  splits: SplitUpdateManyWithoutOwnedByInput
+  splits: SplitUpdateManyWithoutBelongsToInput
   author: UserUpdateOneInput
 }
 
@@ -185,12 +185,12 @@ input ExpenseUpdateWithoutSplitsDataInput {
   amount: Int
   participants: UserUpdateManyInput
   author: UserUpdateOneInput
-  ownedBy: GroupUpdateOneWithoutExpensesInput
+  belongsTo: GroupUpdateOneWithoutExpensesInput
 }
 
-input ExpenseUpdateWithWhereUniqueWithoutOwnedByInput {
+input ExpenseUpdateWithWhereUniqueWithoutBelongsToInput {
   where: ExpenseWhereUniqueInput!
-  data: ExpenseUpdateWithoutOwnedByDataInput!
+  data: ExpenseUpdateWithoutBelongsToDataInput!
 }
 
 input ExpenseUpsertWithoutSplitsInput {
@@ -198,10 +198,10 @@ input ExpenseUpsertWithoutSplitsInput {
   create: ExpenseCreateWithoutSplitsInput!
 }
 
-input ExpenseUpsertWithWhereUniqueWithoutOwnedByInput {
+input ExpenseUpsertWithWhereUniqueWithoutBelongsToInput {
   where: ExpenseWhereUniqueInput!
-  update: ExpenseUpdateWithoutOwnedByDataInput!
-  create: ExpenseCreateWithoutOwnedByInput!
+  update: ExpenseUpdateWithoutBelongsToDataInput!
+  create: ExpenseCreateWithoutBelongsToInput!
 }
 
 input ExpenseWhereInput {
@@ -322,7 +322,7 @@ input ExpenseWhereInput {
   splits_some: SplitWhereInput
   splits_none: SplitWhereInput
   author: UserWhereInput
-  ownedBy: GroupWhereInput
+  belongsTo: GroupWhereInput
 }
 
 input ExpenseWhereUniqueInput {
@@ -355,7 +355,7 @@ input GroupCreateInput {
   description: String
   avatar: String
   participants: UserCreateManyWithoutGroupsInput
-  expenses: ExpenseCreateManyWithoutOwnedByInput
+  expenses: ExpenseCreateManyWithoutBelongsToInput
   author: UserCreateOneInput!
 }
 
@@ -381,7 +381,7 @@ input GroupCreateWithoutParticipantsInput {
   title: String!
   description: String
   avatar: String
-  expenses: ExpenseCreateManyWithoutOwnedByInput
+  expenses: ExpenseCreateManyWithoutBelongsToInput
   author: UserCreateOneInput!
 }
 
@@ -461,7 +461,7 @@ input GroupUpdateInput {
   description: String
   avatar: String
   participants: UserUpdateManyWithoutGroupsInput
-  expenses: ExpenseUpdateManyWithoutOwnedByInput
+  expenses: ExpenseUpdateManyWithoutBelongsToInput
   author: UserUpdateOneInput
 }
 
@@ -477,6 +477,7 @@ input GroupUpdateManyWithoutParticipantsInput {
 input GroupUpdateOneWithoutExpensesInput {
   create: GroupCreateWithoutExpensesInput
   connect: GroupWhereUniqueInput
+  disconnect: Boolean
   delete: Boolean
   update: GroupUpdateWithoutExpensesDataInput
   upsert: GroupUpsertWithoutExpensesInput
@@ -494,7 +495,7 @@ input GroupUpdateWithoutParticipantsDataInput {
   title: String
   description: String
   avatar: String
-  expenses: ExpenseUpdateManyWithoutOwnedByInput
+  expenses: ExpenseUpdateManyWithoutBelongsToInput
   author: UserUpdateOneInput
 }
 
@@ -803,7 +804,7 @@ type Split implements Node {
   id: ID!
   amount: Int!
   author(where: UserWhereInput): User!
-  ownedBy(where: ExpenseWhereInput): Expense!
+  belongsTo(where: ExpenseWhereInput): Expense!
 }
 
 """A connection to a list of items."""
@@ -819,15 +820,15 @@ type SplitConnection {
 input SplitCreateInput {
   amount: Int!
   author: UserCreateOneInput!
-  ownedBy: ExpenseCreateOneWithoutSplitsInput!
+  belongsTo: ExpenseCreateOneWithoutSplitsInput!
 }
 
-input SplitCreateManyWithoutOwnedByInput {
-  create: [SplitCreateWithoutOwnedByInput!]
+input SplitCreateManyWithoutBelongsToInput {
+  create: [SplitCreateWithoutBelongsToInput!]
   connect: [SplitWhereUniqueInput!]
 }
 
-input SplitCreateWithoutOwnedByInput {
+input SplitCreateWithoutBelongsToInput {
   amount: Int!
   author: UserCreateOneInput!
 }
@@ -899,32 +900,32 @@ input SplitSubscriptionWhereInput {
 input SplitUpdateInput {
   amount: Int
   author: UserUpdateOneInput
-  ownedBy: ExpenseUpdateOneWithoutSplitsInput
+  belongsTo: ExpenseUpdateOneWithoutSplitsInput
 }
 
-input SplitUpdateManyWithoutOwnedByInput {
-  create: [SplitCreateWithoutOwnedByInput!]
+input SplitUpdateManyWithoutBelongsToInput {
+  create: [SplitCreateWithoutBelongsToInput!]
   connect: [SplitWhereUniqueInput!]
   disconnect: [SplitWhereUniqueInput!]
   delete: [SplitWhereUniqueInput!]
-  update: [SplitUpdateWithWhereUniqueWithoutOwnedByInput!]
-  upsert: [SplitUpsertWithWhereUniqueWithoutOwnedByInput!]
+  update: [SplitUpdateWithWhereUniqueWithoutBelongsToInput!]
+  upsert: [SplitUpsertWithWhereUniqueWithoutBelongsToInput!]
 }
 
-input SplitUpdateWithoutOwnedByDataInput {
+input SplitUpdateWithoutBelongsToDataInput {
   amount: Int
   author: UserUpdateOneInput
 }
 
-input SplitUpdateWithWhereUniqueWithoutOwnedByInput {
+input SplitUpdateWithWhereUniqueWithoutBelongsToInput {
   where: SplitWhereUniqueInput!
-  data: SplitUpdateWithoutOwnedByDataInput!
+  data: SplitUpdateWithoutBelongsToDataInput!
 }
 
-input SplitUpsertWithWhereUniqueWithoutOwnedByInput {
+input SplitUpsertWithWhereUniqueWithoutBelongsToInput {
   where: SplitWhereUniqueInput!
-  update: SplitUpdateWithoutOwnedByDataInput!
-  create: SplitCreateWithoutOwnedByInput!
+  update: SplitUpdateWithoutBelongsToDataInput!
+  create: SplitCreateWithoutBelongsToInput!
 }
 
 input SplitWhereInput {
@@ -999,7 +1000,7 @@ input SplitWhereInput {
   """All values greater than or equal the given value."""
   amount_gte: Int
   author: UserWhereInput
-  ownedBy: ExpenseWhereInput
+  belongsTo: ExpenseWhereInput
 }
 
 input SplitWhereUniqueInput {

@@ -13,7 +13,7 @@ type Split {
   id: ID! @unique
   amount: Int!
   author: User!
-  ownedBy: Expense! @relation(name: "Splits")
+  belongsTo: Expense! @relation(name: "Splits")
 }
 
 type Expense {
@@ -24,7 +24,7 @@ type Expense {
   splits: [Split!]! @relation(name: "Splits", onDelete: CASCADE)
   amount: Int
   author: User! @relation(name: "ExpenseAuthor")
-  ownedBy: Group! @relation(name: "Expenses")
+  belongsTo: Group @relation(name: "Expenses")
 }
 
 type Group {
