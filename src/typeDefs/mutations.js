@@ -18,6 +18,7 @@ const mutations = gql`
     deleteGroup(id: ID!): Group!
 
     createExpense(input: CreateExpenseInput!): Expense!
+    createLinkedExpense(input: CreateLinkedExpenseInput!): Expense!
     deleteExpense(id: ID!): Expense!
     modifyExpense(input: ModifyExpenseInput!): Expense!
 

@@ -19,12 +19,19 @@ type Split {
 type Expense {
   id: ID! @unique
   title: String!
-  participants: [User!]!
-    @relation(name: "ExpenseParticipants", onDelete: CASCADE)
+  description: String
+
   splits: [Split!]! @relation(name: "Splits", onDelete: CASCADE)
-  amount: Int
+  amount: Float!
+  currency: Currency!
   author: User! @relation(name: "ExpenseAuthor")
   belongsTo: Group @relation(name: "Expenses")
+}
+
+enum Currency {
+  EURO
+  DOLLAR
+  POUND
 }
 
 type Group {

@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Mon Sep 17 2018 12:18:13 GMT+0200 (CEST)
+# timestamp: Wed Sep 19 2018 11:18:08 GMT+0200 (CEST)
 
 type AggregateExpense {
   count: Int!
@@ -22,14 +22,21 @@ type BatchPayload {
   count: Long!
 }
 
+enum Currency {
+  EURO
+  DOLLAR
+  POUND
+}
+
 scalar DateTime
 
 type Expense implements Node {
   id: ID!
   title: String!
-  participants(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  description: String
   splits(where: SplitWhereInput, orderBy: SplitOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Split!]
-  amount: Int
+  amount: Float!
+  currency: Currency!
   author(where: UserWhereInput): User!
   belongsTo(where: GroupWhereInput): Group
 }
@@ -46,8 +53,9 @@ type ExpenseConnection {
 
 input ExpenseCreateInput {
   title: String!
-  amount: Int
-  participants: UserCreateManyInput
+  description: String
+  amount: Float!
+  currency: Currency!
   splits: SplitCreateManyWithoutBelongsToInput
   author: UserCreateOneInput!
   belongsTo: GroupCreateOneWithoutExpensesInput
@@ -65,16 +73,18 @@ input ExpenseCreateOneWithoutSplitsInput {
 
 input ExpenseCreateWithoutBelongsToInput {
   title: String!
-  amount: Int
-  participants: UserCreateManyInput
+  description: String
+  amount: Float!
+  currency: Currency!
   splits: SplitCreateManyWithoutBelongsToInput
   author: UserCreateOneInput!
 }
 
 input ExpenseCreateWithoutSplitsInput {
   title: String!
-  amount: Int
-  participants: UserCreateManyInput
+  description: String
+  amount: Float!
+  currency: Currency!
   author: UserCreateOneInput!
   belongsTo: GroupCreateOneWithoutExpensesInput
 }
@@ -93,8 +103,12 @@ enum ExpenseOrderByInput {
   id_DESC
   title_ASC
   title_DESC
+  description_ASC
+  description_DESC
   amount_ASC
   amount_DESC
+  currency_ASC
+  currency_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -104,7 +118,9 @@ enum ExpenseOrderByInput {
 type ExpensePreviousValues {
   id: ID!
   title: String!
-  amount: Int
+  description: String
+  amount: Float!
+  currency: Currency!
 }
 
 type ExpenseSubscriptionPayload {
@@ -148,8 +164,9 @@ input ExpenseSubscriptionWhereInput {
 
 input ExpenseUpdateInput {
   title: String
-  amount: Int
-  participants: UserUpdateManyInput
+  description: String
+  amount: Float
+  currency: Currency
   splits: SplitUpdateManyWithoutBelongsToInput
   author: UserUpdateOneInput
   belongsTo: GroupUpdateOneWithoutExpensesInput
@@ -174,16 +191,18 @@ input ExpenseUpdateOneWithoutSplitsInput {
 
 input ExpenseUpdateWithoutBelongsToDataInput {
   title: String
-  amount: Int
-  participants: UserUpdateManyInput
+  description: String
+  amount: Float
+  currency: Currency
   splits: SplitUpdateManyWithoutBelongsToInput
   author: UserUpdateOneInput
 }
 
 input ExpenseUpdateWithoutSplitsDataInput {
   title: String
-  amount: Int
-  participants: UserUpdateManyInput
+  description: String
+  amount: Float
+  currency: Currency
   author: UserUpdateOneInput
   belongsTo: GroupUpdateOneWithoutExpensesInput
 }
@@ -293,31 +312,78 @@ input ExpenseWhereInput {
 
   """All values not ending with the given string."""
   title_not_ends_with: String
-  amount: Int
+  description: String
 
   """All values that are not equal to given value."""
-  amount_not: Int
+  description_not: String
 
   """All values that are contained in given list."""
-  amount_in: [Int!]
+  description_in: [String!]
 
   """All values that are not contained in given list."""
-  amount_not_in: [Int!]
+  description_not_in: [String!]
 
   """All values less than the given value."""
-  amount_lt: Int
+  description_lt: String
 
   """All values less than or equal the given value."""
-  amount_lte: Int
+  description_lte: String
 
   """All values greater than the given value."""
-  amount_gt: Int
+  description_gt: String
 
   """All values greater than or equal the given value."""
-  amount_gte: Int
-  participants_every: UserWhereInput
-  participants_some: UserWhereInput
-  participants_none: UserWhereInput
+  description_gte: String
+
+  """All values containing the given string."""
+  description_contains: String
+
+  """All values not containing the given string."""
+  description_not_contains: String
+
+  """All values starting with the given string."""
+  description_starts_with: String
+
+  """All values not starting with the given string."""
+  description_not_starts_with: String
+
+  """All values ending with the given string."""
+  description_ends_with: String
+
+  """All values not ending with the given string."""
+  description_not_ends_with: String
+  amount: Float
+
+  """All values that are not equal to given value."""
+  amount_not: Float
+
+  """All values that are contained in given list."""
+  amount_in: [Float!]
+
+  """All values that are not contained in given list."""
+  amount_not_in: [Float!]
+
+  """All values less than the given value."""
+  amount_lt: Float
+
+  """All values less than or equal the given value."""
+  amount_lte: Float
+
+  """All values greater than the given value."""
+  amount_gt: Float
+
+  """All values greater than or equal the given value."""
+  amount_gte: Float
+  currency: Currency
+
+  """All values that are not equal to given value."""
+  currency_not: Currency
+
+  """All values that are contained in given list."""
+  currency_in: [Currency!]
+
+  """All values that are not contained in given list."""
+  currency_not_in: [Currency!]
   splits_every: SplitWhereInput
   splits_some: SplitWhereInput
   splits_none: SplitWhereInput
