@@ -20,8 +20,8 @@ type Expense {
   id: ID! @unique
   title: String!
   description: String
-
-  splits: [Split!]! @relation(name: "Splits", onDelete: CASCADE)
+  participants: [User!]! @relation(name: "ExpenseParticipants")
+  # splits: [Split!]! @relation(name: "Splits", onDelete: CASCADE)
   amount: Float!
   currency: Currency!
   author: User! @relation(name: "ExpenseAuthor")

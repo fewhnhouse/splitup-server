@@ -31,11 +31,11 @@ const queries = gql`
     group(id: ID!): Group
 
     # EXPENSES
-    expenses(where: ExpenseWhereInput!): [Expense!]
+    expenses(where: ExpenseWhereInput): [Expense!]
     expense(id: ID!): Expense
 
     # SPLITS
-    splits(where: SplitWhereInput!): [Split!]
+    splits: [Split!]
     split(id: ID!): Split
   }
 `;

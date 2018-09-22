@@ -15,6 +15,7 @@ const inputs = gql`
   input CreateLinkedExpenseInput {
     groupId: ID!
     title: String!
+    participants: [ID!]!
     description: String!
     currency: Currency!
     amount: Float!
@@ -24,6 +25,7 @@ const inputs = gql`
 
   input CreateExpenseInput {
     title: String!
+    participants: [ID!]!
     description: String!
     currency: Currency!
     amount: Float!

@@ -1,16 +1,28 @@
 const { getUserId } = require("../../utils");
 
 const expense = {
-  async createExpense(parent, { title, groupId }, ctx, info) {
+  async createLinkedExpense(parent, { input }, ctx, info) {
     const userId = getUserId(ctx);
+
+    const {
+      title,
+      description,
+      groupId,
+      amount,
+      currency,
+      participants
+    } = input;
     return ctx.db.mutation.createExpense(
       {
         data: {
           title,
-          splits,
+          description,
+          amount,
+          currency,
           author: {
             connect: { id: userId }
           },
+          participants: { connect: participants.map(p => ({ id: p })) },
           belongsTo: {
             connect: { id: groupId }
           }
@@ -18,6 +30,9 @@ const expense = {
       },
       info
     );
+  },
+  async createExpense(parent, { id }, ctx, info) {
+    return null;
   },
   async deleteExpense(parent, { id }, ctx, info) {
     return ctx.db.mutation.deleteExpense({ where: { id } }, info);
