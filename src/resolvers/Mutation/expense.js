@@ -31,8 +31,25 @@ const expense = {
       info
     );
   },
-  async createExpense(parent, { id }, ctx, info) {
-    return null;
+  async createExpense(parent, { input }, ctx, info) {
+    const userId = getUserId(ctx);
+
+    const { title, description, amount, currency, participants } = input;
+    return ctx.db.mutation.createExpense(
+      {
+        data: {
+          title,
+          description,
+          amount,
+          currency,
+          author: {
+            connect: { id: userId }
+          },
+          participants: { connect: participants.map(p => ({ id: p })) }
+        }
+      },
+      info
+    );
   },
   async deleteExpense(parent, { id }, ctx, info) {
     return ctx.db.mutation.deleteExpense({ where: { id } }, info);
