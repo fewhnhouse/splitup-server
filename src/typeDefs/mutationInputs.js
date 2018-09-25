@@ -19,7 +19,7 @@ const inputs = gql`
     description: String!
     currency: Currency!
     amount: Float!
-    #splits: [Split!]!
+    splits: [CreateSplitInput!]!
   }
 
 
@@ -29,7 +29,7 @@ const inputs = gql`
     description: String!
     currency: Currency!
     amount: Float!
-    #splits: [Split!]!
+    splits: [CreateSplitInput!]!
   }
 
   input ModifyExpenseInput {
@@ -39,7 +39,7 @@ const inputs = gql`
 
   input CreateSplitInput {
     amount: Int!
-    expenseId: ID!
+    id: ID!
   }
 
   input ModifySplitInput {

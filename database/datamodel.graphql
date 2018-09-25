@@ -1,5 +1,6 @@
 type User {
   id: ID! @unique
+  createdAt: DateTime!
   email: String! @unique
   password: String!
   name: String!
@@ -13,15 +14,15 @@ type Split {
   id: ID! @unique
   amount: Int!
   author: User!
-  belongsTo: Expense! @relation(name: "Splits")
 }
 
 type Expense {
   id: ID! @unique
   title: String!
+  createdAt: DateTime!
   description: String
   participants: [User!]! @relation(name: "ExpenseParticipants")
-  # splits: [Split!]! @relation(name: "Splits", onDelete: CASCADE)
+  splits: [Split!]! @relation(name: "Splits", onDelete: CASCADE)
   amount: Float!
   currency: Currency!
   author: User! @relation(name: "ExpenseAuthor")

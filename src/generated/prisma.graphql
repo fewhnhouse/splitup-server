@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Sat Sep 22 2018 15:04:47 GMT+0200 (CEST)
+# timestamp: Tue Sep 25 2018 13:30:01 GMT+0200 (CEST)
 
 type AggregateExpense {
   count: Int!
@@ -33,8 +33,10 @@ scalar DateTime
 type Expense implements Node {
   id: ID!
   title: String!
+  createdAt: DateTime!
   description: String
   participants(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  splits(where: SplitWhereInput, orderBy: SplitOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Split!]
   amount: Float!
   currency: Currency!
   author(where: UserWhereInput): User!
@@ -57,6 +59,7 @@ input ExpenseCreateInput {
   amount: Float!
   currency: Currency!
   participants: UserCreateManyInput
+  splits: SplitCreateManyInput
   author: UserCreateOneInput!
   belongsTo: GroupCreateOneWithoutExpensesInput
 }
@@ -66,17 +69,13 @@ input ExpenseCreateManyWithoutBelongsToInput {
   connect: [ExpenseWhereUniqueInput!]
 }
 
-input ExpenseCreateOneInput {
-  create: ExpenseCreateInput
-  connect: ExpenseWhereUniqueInput
-}
-
 input ExpenseCreateWithoutBelongsToInput {
   title: String!
   description: String
   amount: Float!
   currency: Currency!
   participants: UserCreateManyInput
+  splits: SplitCreateManyInput
   author: UserCreateOneInput!
 }
 
@@ -94,6 +93,8 @@ enum ExpenseOrderByInput {
   id_DESC
   title_ASC
   title_DESC
+  createdAt_ASC
+  createdAt_DESC
   description_ASC
   description_DESC
   amount_ASC
@@ -102,13 +103,12 @@ enum ExpenseOrderByInput {
   currency_DESC
   updatedAt_ASC
   updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
 }
 
 type ExpensePreviousValues {
   id: ID!
   title: String!
+  createdAt: DateTime!
   description: String
   amount: Float!
   currency: Currency!
@@ -153,22 +153,13 @@ input ExpenseSubscriptionWhereInput {
   node: ExpenseWhereInput
 }
 
-input ExpenseUpdateDataInput {
-  title: String
-  description: String
-  amount: Float
-  currency: Currency
-  participants: UserUpdateManyInput
-  author: UserUpdateOneInput
-  belongsTo: GroupUpdateOneWithoutExpensesInput
-}
-
 input ExpenseUpdateInput {
   title: String
   description: String
   amount: Float
   currency: Currency
   participants: UserUpdateManyInput
+  splits: SplitUpdateManyInput
   author: UserUpdateOneInput
   belongsTo: GroupUpdateOneWithoutExpensesInput
 }
@@ -182,31 +173,19 @@ input ExpenseUpdateManyWithoutBelongsToInput {
   upsert: [ExpenseUpsertWithWhereUniqueWithoutBelongsToInput!]
 }
 
-input ExpenseUpdateOneInput {
-  create: ExpenseCreateInput
-  connect: ExpenseWhereUniqueInput
-  delete: Boolean
-  update: ExpenseUpdateDataInput
-  upsert: ExpenseUpsertNestedInput
-}
-
 input ExpenseUpdateWithoutBelongsToDataInput {
   title: String
   description: String
   amount: Float
   currency: Currency
   participants: UserUpdateManyInput
+  splits: SplitUpdateManyInput
   author: UserUpdateOneInput
 }
 
 input ExpenseUpdateWithWhereUniqueWithoutBelongsToInput {
   where: ExpenseWhereUniqueInput!
   data: ExpenseUpdateWithoutBelongsToDataInput!
-}
-
-input ExpenseUpsertNestedInput {
-  update: ExpenseUpdateDataInput!
-  create: ExpenseCreateInput!
 }
 
 input ExpenseUpsertWithWhereUniqueWithoutBelongsToInput {
@@ -304,6 +283,28 @@ input ExpenseWhereInput {
 
   """All values not ending with the given string."""
   title_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
   description: String
 
   """All values that are not equal to given value."""
@@ -379,6 +380,9 @@ input ExpenseWhereInput {
   participants_every: UserWhereInput
   participants_some: UserWhereInput
   participants_none: UserWhereInput
+  splits_every: SplitWhereInput
+  splits_some: SplitWhereInput
+  splits_none: SplitWhereInput
   author: UserWhereInput
   belongsTo: GroupWhereInput
 }
@@ -784,29 +788,29 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createSplit(data: SplitCreateInput!): Split!
-  createGroup(data: GroupCreateInput!): Group!
   createExpense(data: ExpenseCreateInput!): Expense!
+  createGroup(data: GroupCreateInput!): Group!
+  createSplit(data: SplitCreateInput!): Split!
   createUser(data: UserCreateInput!): User!
-  updateSplit(data: SplitUpdateInput!, where: SplitWhereUniqueInput!): Split
-  updateGroup(data: GroupUpdateInput!, where: GroupWhereUniqueInput!): Group
   updateExpense(data: ExpenseUpdateInput!, where: ExpenseWhereUniqueInput!): Expense
+  updateGroup(data: GroupUpdateInput!, where: GroupWhereUniqueInput!): Group
+  updateSplit(data: SplitUpdateInput!, where: SplitWhereUniqueInput!): Split
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  deleteSplit(where: SplitWhereUniqueInput!): Split
-  deleteGroup(where: GroupWhereUniqueInput!): Group
   deleteExpense(where: ExpenseWhereUniqueInput!): Expense
+  deleteGroup(where: GroupWhereUniqueInput!): Group
+  deleteSplit(where: SplitWhereUniqueInput!): Split
   deleteUser(where: UserWhereUniqueInput!): User
-  upsertSplit(where: SplitWhereUniqueInput!, create: SplitCreateInput!, update: SplitUpdateInput!): Split!
-  upsertGroup(where: GroupWhereUniqueInput!, create: GroupCreateInput!, update: GroupUpdateInput!): Group!
   upsertExpense(where: ExpenseWhereUniqueInput!, create: ExpenseCreateInput!, update: ExpenseUpdateInput!): Expense!
+  upsertGroup(where: GroupWhereUniqueInput!, create: GroupCreateInput!, update: GroupUpdateInput!): Group!
+  upsertSplit(where: SplitWhereUniqueInput!, create: SplitCreateInput!, update: SplitUpdateInput!): Split!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  updateManySplits(data: SplitUpdateInput!, where: SplitWhereInput): BatchPayload!
-  updateManyGroups(data: GroupUpdateInput!, where: GroupWhereInput): BatchPayload!
   updateManyExpenses(data: ExpenseUpdateInput!, where: ExpenseWhereInput): BatchPayload!
+  updateManyGroups(data: GroupUpdateInput!, where: GroupWhereInput): BatchPayload!
+  updateManySplits(data: SplitUpdateInput!, where: SplitWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
-  deleteManySplits(where: SplitWhereInput): BatchPayload!
-  deleteManyGroups(where: GroupWhereInput): BatchPayload!
   deleteManyExpenses(where: ExpenseWhereInput): BatchPayload!
+  deleteManyGroups(where: GroupWhereInput): BatchPayload!
+  deleteManySplits(where: SplitWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
 
@@ -838,17 +842,17 @@ type PageInfo {
 }
 
 type Query {
-  splits(where: SplitWhereInput, orderBy: SplitOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Split]!
-  groups(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Group]!
   expenses(where: ExpenseWhereInput, orderBy: ExpenseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Expense]!
+  groups(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Group]!
+  splits(where: SplitWhereInput, orderBy: SplitOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Split]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  split(where: SplitWhereUniqueInput!): Split
-  group(where: GroupWhereUniqueInput!): Group
   expense(where: ExpenseWhereUniqueInput!): Expense
+  group(where: GroupWhereUniqueInput!): Group
+  split(where: SplitWhereUniqueInput!): Split
   user(where: UserWhereUniqueInput!): User
-  splitsConnection(where: SplitWhereInput, orderBy: SplitOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SplitConnection!
-  groupsConnection(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GroupConnection!
   expensesConnection(where: ExpenseWhereInput, orderBy: ExpenseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ExpenseConnection!
+  groupsConnection(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GroupConnection!
+  splitsConnection(where: SplitWhereInput, orderBy: SplitOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SplitConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
   """Fetches an object given its ID"""
@@ -862,7 +866,6 @@ type Split implements Node {
   id: ID!
   amount: Int!
   author(where: UserWhereInput): User!
-  belongsTo(where: ExpenseWhereInput): Expense!
 }
 
 """A connection to a list of items."""
@@ -878,7 +881,11 @@ type SplitConnection {
 input SplitCreateInput {
   amount: Int!
   author: UserCreateOneInput!
-  belongsTo: ExpenseCreateOneInput!
+}
+
+input SplitCreateManyInput {
+  create: [SplitCreateInput!]
+  connect: [SplitWhereUniqueInput!]
 }
 
 """An edge in a connection."""
@@ -945,10 +952,34 @@ input SplitSubscriptionWhereInput {
   node: SplitWhereInput
 }
 
+input SplitUpdateDataInput {
+  amount: Int
+  author: UserUpdateOneInput
+}
+
 input SplitUpdateInput {
   amount: Int
   author: UserUpdateOneInput
-  belongsTo: ExpenseUpdateOneInput
+}
+
+input SplitUpdateManyInput {
+  create: [SplitCreateInput!]
+  connect: [SplitWhereUniqueInput!]
+  disconnect: [SplitWhereUniqueInput!]
+  delete: [SplitWhereUniqueInput!]
+  update: [SplitUpdateWithWhereUniqueNestedInput!]
+  upsert: [SplitUpsertWithWhereUniqueNestedInput!]
+}
+
+input SplitUpdateWithWhereUniqueNestedInput {
+  where: SplitWhereUniqueInput!
+  data: SplitUpdateDataInput!
+}
+
+input SplitUpsertWithWhereUniqueNestedInput {
+  where: SplitWhereUniqueInput!
+  update: SplitUpdateDataInput!
+  create: SplitCreateInput!
 }
 
 input SplitWhereInput {
@@ -1023,7 +1054,6 @@ input SplitWhereInput {
   """All values greater than or equal the given value."""
   amount_gte: Int
   author: UserWhereInput
-  belongsTo: ExpenseWhereInput
 }
 
 input SplitWhereUniqueInput {
@@ -1031,14 +1061,15 @@ input SplitWhereUniqueInput {
 }
 
 type Subscription {
-  split(where: SplitSubscriptionWhereInput): SplitSubscriptionPayload
-  group(where: GroupSubscriptionWhereInput): GroupSubscriptionPayload
   expense(where: ExpenseSubscriptionWhereInput): ExpenseSubscriptionPayload
+  group(where: GroupSubscriptionWhereInput): GroupSubscriptionPayload
+  split(where: SplitSubscriptionWhereInput): SplitSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
 type User implements Node {
   id: ID!
+  createdAt: DateTime!
   email: String!
   password: String!
   name: String!
@@ -1104,6 +1135,8 @@ type UserEdge {
 enum UserOrderByInput {
   id_ASC
   id_DESC
+  createdAt_ASC
+  createdAt_DESC
   email_ASC
   email_DESC
   password_ASC
@@ -1114,12 +1147,11 @@ enum UserOrderByInput {
   avatar_DESC
   updatedAt_ASC
   updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
 }
 
 type UserPreviousValues {
   id: ID!
+  createdAt: DateTime!
   email: String!
   password: String!
   name: String!
@@ -1296,6 +1328,28 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
   email: String
 
   """All values that are not equal to given value."""

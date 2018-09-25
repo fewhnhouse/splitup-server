@@ -34,7 +34,23 @@ const expense = {
   async createExpense(parent, { input }, ctx, info) {
     const userId = getUserId(ctx);
 
-    const { title, description, amount, currency, participants } = input;
+    const {
+      title,
+      description,
+      amount,
+      currency,
+      participants,
+      splits
+    } = input;
+
+    const createdSplits = await Promise.all(
+      splits.map(split =>
+        ctx.db.mutation.createSplit({
+          data: { amount: split.amount, author: { connect: { id: split.id } } }
+        })
+      )
+    );
+
     return ctx.db.mutation.createExpense(
       {
         data: {
@@ -44,6 +60,9 @@ const expense = {
           currency,
           author: {
             connect: { id: userId }
+          },
+          splits: {
+            connect: createdSplits.map(split => ({ id: split.id }))
           },
           participants: { connect: participants.map(p => ({ id: p })) }
         }

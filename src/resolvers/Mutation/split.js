@@ -1,17 +1,14 @@
 const { getUserId } = require("../../utils");
 
 const split = {
-  async createSplit(parent, { amount, expenseId }, ctx, info) {
+  async createSplit(parent, { amount, authorId }, ctx, info) {
     const userId = getUserId(ctx);
     return ctx.db.mutation.createExpense(
       {
         data: {
           amount,
           author: {
-            connect: { id: userId }
-          },
-          belongsTo: {
-            connect: { id: expenseId }
+            connect: { id: authorId }
           }
         }
       },
